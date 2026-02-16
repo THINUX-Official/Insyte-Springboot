@@ -1,8 +1,105 @@
 package com.insurance.thinux.insytespringboot.model;
 
+import com.insurance.thinux.insytespringboot.enums.*;
+import com.insurance.thinux.insytespringboot.util.Auditable;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 /**
  * @author: THINUX
  * @created: 08-Jan-26 - 12:16 PM
  */
-public class Lead {
+
+@Entity
+@Table(name = "leads")
+public class Lead extends Auditable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @Column(nullable = false, unique = true, length = 12)
+    private String nic;
+
+    @Column(unique = true, length = 100)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private CivilStatus civilStatus;
+
+    private LocalDate dob;
+
+    @Column(length = 15)
+    private String mobile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "occupation_id")
+    private Occupation occupation;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
+    private Race race;
+
+    @Column(length = 150)
+    private String address1;
+
+    @Column(length = 150)
+    private String address2;
+
+    @Column(length = 50)
+    private String city;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private District district;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private Province province;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private Country country;
+
+    /* Financial Data */
+    @Column(precision = 12, scale = 2)
+    private BigDecimal premium;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private ProductType productType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private LeadSource leadSource;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Probability probability;
+
+    private LocalDate remindDate;
+
+    @Lob // long text
+    private String remark;
+
+    @Column(length = 255)
+    private String attachmentPath;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigned_user_id", nullable = false)
+    private User assignedUser;
 }
