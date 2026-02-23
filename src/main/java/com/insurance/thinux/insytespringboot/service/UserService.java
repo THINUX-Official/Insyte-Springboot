@@ -1,0 +1,14 @@
+package com.insurance.thinux.insytespringboot.service;
+
+import com.insurance.thinux.insytespringboot.dto.response.UserResponseDTO;
+
+import java.util.List;
+
+/**
+ * @author: THINUX
+ * @created: 19-Feb-26 - 09:29 PM
+ */
+public interface UserService {
+
+    List<UserResponseDTO> getAllUsers();
+}
