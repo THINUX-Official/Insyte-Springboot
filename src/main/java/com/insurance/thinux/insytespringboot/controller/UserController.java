@@ -1,13 +1,11 @@
 package com.insurance.thinux.insytespringboot.controller;
 
+import com.insurance.thinux.insytespringboot.dto.request.UserRequestDTO;
 import com.insurance.thinux.insytespringboot.dto.response.UserResponseDTO;
 import com.insurance.thinux.insytespringboot.service.UserService;
 import com.insurance.thinux.insytespringboot.util.StandardResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,8 +30,13 @@ public class UserController {
 
         List<UserResponseDTO> users = userService.getAllUsers();
 
-        StandardResponse<List<UserResponseDTO>> response = new StandardResponse<>(200, "OK", users);
+        StandardResponse<List<UserResponseDTO>> response = new StandardResponse<>(200, "Get All Users Successfully", users);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<StandardResponse<UserResponseDTO>> createUser(@RequestBody UserRequestDTO dto) {
+        return ResponseEntity.ok(new StandardResponse<>(201, "User Created Successfully", userService.createUser(dto)));
     }
 }
