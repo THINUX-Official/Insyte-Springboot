@@ -83,12 +83,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRequestDTO updateUser(Long id, UserRequestDTO dto) {
-        return null;
+    public UserResponseDTO updateUser(Long id, UserRequestDTO dto) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPhone(dto.getPhone());
+        user.setNickname(dto.getNickname());
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        if (dto.getSupervisorId() != null) {
+            User supervisor = userRepository.findById(dto.getSupervisorId())
+                    .orElseThrow(() -> new RuntimeException("Supervisor not found"));
+            user.setSupervisor(supervisor);
+        } else {
+            user.setSupervisor(null);
+        }
+
+        if (dto.getRoleIds() != null) {
+            Set<Role> roles = dto.getRoleIds().stream()
+                    .map(roleId -> roleRepository.findById(roleId)
+                            .orElseThrow(() -> new RuntimeException("Role not found")))
+                    .collect(Collectors.toSet());
+            user.setRoles(roles);
+        }
+
+        return userMapper.toResponseDTO(userRepository.save(user));
     }
 
     @Override
     public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
+        userRepository.delete(user);
+    }
+
+    @Override
+    public void deleteUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        userRepository.delete(user);
     }
 }

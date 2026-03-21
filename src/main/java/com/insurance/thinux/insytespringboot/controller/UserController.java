@@ -37,16 +37,42 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<StandardResponse<UserResponseDTO>> createUser(@RequestBody UserRequestDTO dto) {
-        return ResponseEntity.ok(new StandardResponse<>(201, "User Created Successfully", userService.createUser(dto)));
+        return ResponseEntity.ok(new StandardResponse<>(201, "Create User Successfully", userService.createUser(dto)));
     }
 
     @GetMapping("/id")
     public ResponseEntity<StandardResponse<UserResponseDTO>> getUserById(@RequestParam long id) {
-        return ResponseEntity.ok(new StandardResponse<>(200, "Get User Successfully", userService.getUserById(id)));
+        return ResponseEntity.ok(new StandardResponse<>(200, "Get User by ID Successfully", userService.getUserById(id)));
     }
 
     @GetMapping("/by-username")
     public ResponseEntity<StandardResponse<UserResponseDTO>> getUserByUsername(@RequestParam String username) {
-        return ResponseEntity.ok(new StandardResponse<>(200, "Get User Successfully", userService.getUserByUsername(username)));
+        return ResponseEntity.ok(new StandardResponse<>(200, "Get User by Username Successfully", userService.getUserByUsername(username)));
+    }
+
+    @PutMapping("/id")
+    public ResponseEntity<StandardResponse<UserResponseDTO>> updateUser(
+            @RequestParam Long id,
+            @RequestBody UserRequestDTO dto) {
+
+        UserResponseDTO updatedUser = userService.updateUser(id, dto);
+
+        return ResponseEntity.ok(new StandardResponse<>(200, "Update User Successfully", updatedUser));
+    }
+
+    @DeleteMapping("/id")
+    public ResponseEntity<StandardResponse<Void>> deleteUser(@RequestParam Long id) {
+
+        userService.deleteUser(id);
+
+        return ResponseEntity.ok(new StandardResponse<>(200, "Delete User Successfully", null));
+    }
+
+    @DeleteMapping("/by-username")
+    public ResponseEntity<StandardResponse<Void>> deleteUserByUsername(@RequestParam String username) {
+
+        userService.deleteUserByUsername(username);
+
+        return ResponseEntity.ok(new StandardResponse<>(200, "Delete User by Username Successfully", null));
     }
 }
