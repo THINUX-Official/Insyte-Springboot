@@ -70,7 +70,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO getUserById(Long id) {
-        return null;
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return userMapper.toResponseDTO(user);
+    }
+
+    @Override
+    public UserResponseDTO getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return userMapper.toResponseDTO(user);
     }
 
     @Override

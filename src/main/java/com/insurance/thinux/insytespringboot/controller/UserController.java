@@ -39,4 +39,14 @@ public class UserController {
     public ResponseEntity<StandardResponse<UserResponseDTO>> createUser(@RequestBody UserRequestDTO dto) {
         return ResponseEntity.ok(new StandardResponse<>(201, "User Created Successfully", userService.createUser(dto)));
     }
+
+    @GetMapping("/id")
+    public ResponseEntity<StandardResponse<UserResponseDTO>> getUserById(@RequestParam long id) {
+        return ResponseEntity.ok(new StandardResponse<>(200, "Get User Successfully", userService.getUserById(id)));
+    }
+
+    @GetMapping("/by-username")
+    public ResponseEntity<StandardResponse<UserResponseDTO>> getUserByUsername(@RequestParam String username) {
+        return ResponseEntity.ok(new StandardResponse<>(200, "Get User Successfully", userService.getUserByUsername(username)));
+    }
 }
