@@ -1,5 +1,6 @@
 package com.insurance.thinux.insytespringboot.dto.response;
 
+import com.insurance.thinux.insytespringboot.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class UserResponseDTO {
     private String nickname;
 
     private Long supervisorId;
+    private UserStatus status;
     private String supervisorUsername;
 
     private Set<String> roles;

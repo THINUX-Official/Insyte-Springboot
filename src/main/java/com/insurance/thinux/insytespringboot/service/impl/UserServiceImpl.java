@@ -2,6 +2,7 @@ package com.insurance.thinux.insytespringboot.service.impl;
 
 import com.insurance.thinux.insytespringboot.dto.request.UserRequestDTO;
 import com.insurance.thinux.insytespringboot.dto.response.UserResponseDTO;
+import com.insurance.thinux.insytespringboot.enums.UserStatus;
 import com.insurance.thinux.insytespringboot.mapper.UserMapper;
 import com.insurance.thinux.insytespringboot.model.Role;
 import com.insurance.thinux.insytespringboot.model.User;
@@ -36,17 +37,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(userMapper::toResponseDTO).toList();
+    public List<UserResponseDTO> getAllUsers(UserStatus status) {
+        return userRepository.findAllByStatus(status)
+                .stream()
+                .map(userMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO dto) {
+
+        if (dto.getPassword() == null || dto.getPassword().length() < 8) {
+            throw new RuntimeException("Password must be at least 8 characters long");
+        }
+
+        if (userRepository.existsByUsername(dto.getUsername())) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        if (dto.getEmail() != null && userRepository.existsByEmail(dto.getEmail())) {
+            throw new RuntimeException("Email address already exists");
+        }
+
+        if (dto.getPhone() != null && userRepository.existsByPhone(dto.getPhone())) {
+            throw new RuntimeException("Phone number already exists");
+        }
+
         User user = new User();
 
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setEmail(dto.getEmail());
         user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());
         user.setNickname(dto.getNickname());
@@ -57,35 +77,32 @@ public class UserServiceImpl implements UserService {
             user.setSupervisor(supervisor);
         }
 
-        if (dto.getRoleIds() != null) {
+        if (dto.getRoleIds() != null && !dto.getRoleIds().isEmpty()) {
             Set<Role> roles = dto.getRoleIds().stream()
                     .map(roleId -> roleRepository.findById(roleId)
                             .orElseThrow(() -> new RuntimeException("Role not found")))
                     .collect(Collectors.toSet());
+
             user.setRoles(roles);
         }
+
+        user.setStatus(UserStatus.ACTIVE);
 
         return userMapper.toResponseDTO(userRepository.save(user));
     }
 
     @Override
-    public UserResponseDTO getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-
-        return userMapper.toResponseDTO(user);
-    }
-
-    @Override
     public UserResponseDTO getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByUsernameAndStatus(username, UserStatus.ACTIVE)
+                .orElseThrow(() -> new RuntimeException("Active user not found"));
 
         return userMapper.toResponseDTO(user);
     }
 
     @Override
-    public UserResponseDTO updateUser(Long id, UserRequestDTO dto) {
+    public UserResponseDTO updateUser(String username, UserRequestDTO dto) {
 
-        User user = userRepository.findById(id)
+        User user = userRepository.findByUsernameAndStatus(username, UserStatus.ACTIVE)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setUsername(dto.getUsername());
@@ -93,7 +110,7 @@ public class UserServiceImpl implements UserService {
         user.setPhone(dto.getPhone());
         user.setNickname(dto.getNickname());
 
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 
@@ -117,16 +134,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    public UserResponseDTO softDeleteUser(String username) {
+        User user = userRepository.findByUsernameAndStatus(username, UserStatus.ACTIVE)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        userRepository.delete(user);
-    }
-
-    @Override
-    public void deleteUserByUsername(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-
-        userRepository.delete(user);
+        user.setStatus(UserStatus.INACTIVE);
+        return userMapper.toResponseDTO(userRepository.save(user));
     }
 }

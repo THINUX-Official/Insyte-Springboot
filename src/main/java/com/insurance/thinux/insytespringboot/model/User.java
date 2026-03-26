@@ -2,6 +2,7 @@ package com.insurance.thinux.insytespringboot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.insurance.thinux.insytespringboot.enums.UserStatus;
 import com.insurance.thinux.insytespringboot.util.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -51,6 +52,10 @@ public class User extends Auditable {
     @JoinColumn(name = "supervisor_id")
     @JsonIgnoreProperties("subordinates")
     private User supervisor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserStatus status;
 
     @OneToMany(mappedBy = "supervisor")
     @JsonIgnore

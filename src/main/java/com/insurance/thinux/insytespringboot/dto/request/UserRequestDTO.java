@@ -1,5 +1,6 @@
 package com.insurance.thinux.insytespringboot.dto.request;
 
+import com.insurance.thinux.insytespringboot.enums.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,7 +19,6 @@ public class UserRequestDTO {
     private String username;
 
     @NotBlank
-    @Size(min = 8)
     private String password;
 
     @Email
@@ -28,4 +28,5 @@ public class UserRequestDTO {
     private String nickname;
     private Long supervisorId;
     private Set<Long> roleIds;
+    private UserStatus status;
 }

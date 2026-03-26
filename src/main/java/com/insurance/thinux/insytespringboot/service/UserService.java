@@ -2,6 +2,7 @@ package com.insurance.thinux.insytespringboot.service;
 
 import com.insurance.thinux.insytespringboot.dto.request.UserRequestDTO;
 import com.insurance.thinux.insytespringboot.dto.response.UserResponseDTO;
+import com.insurance.thinux.insytespringboot.enums.UserStatus;
 
 import java.util.List;
 
@@ -11,17 +12,13 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<UserResponseDTO> getAllUsers();
+    List<UserResponseDTO> getAllUsers(UserStatus status);
 
     UserResponseDTO createUser(UserRequestDTO dto);
 
-    UserResponseDTO getUserById(Long id);
-
     UserResponseDTO getUserByUsername(String username);
 
-    UserResponseDTO updateUser(Long id, UserRequestDTO dto);
+    UserResponseDTO updateUser(String username, UserRequestDTO dto);
 
-    void deleteUser(Long id);
-
-    void deleteUserByUsername(String username);
+    UserResponseDTO softDeleteUser(String username);
 }

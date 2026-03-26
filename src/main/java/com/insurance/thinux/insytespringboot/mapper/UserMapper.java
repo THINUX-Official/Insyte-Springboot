@@ -5,6 +5,7 @@ import com.insurance.thinux.insytespringboot.model.Role;
 import com.insurance.thinux.insytespringboot.model.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +30,15 @@ public class UserMapper {
             dto.setSupervisorUsername(user.getSupervisor().getUsername());
         }
 
-        dto.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
+        if (user.getRoles() != null) {
+            Set<String> roles = user.getRoles()
+                    .stream()
+                    .map(Role::getName)
+                    .collect(Collectors.toSet());
+            dto.setRoles(roles);
+        }
+
+        dto.setStatus(user.getStatus());
 
         dto.setCreatedAt(user.getCreatedAt());
         dto.setUpdatedAt(user.getUpdatedAt());
