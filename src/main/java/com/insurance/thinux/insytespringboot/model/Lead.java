@@ -3,6 +3,10 @@ package com.insurance.thinux.insytespringboot.model;
 import com.insurance.thinux.insytespringboot.enums.*;
 import com.insurance.thinux.insytespringboot.util.Auditable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +18,10 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "leads")
+@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Lead extends Auditable {
 
     @Id
@@ -43,7 +51,7 @@ public class Lead extends Auditable {
 
     private LocalDate dob;
 
-    @Column(length = 15)
+    @Column(unique = true, length = 15)
     private String mobile;
 
     @ManyToOne(fetch = FetchType.LAZY)
