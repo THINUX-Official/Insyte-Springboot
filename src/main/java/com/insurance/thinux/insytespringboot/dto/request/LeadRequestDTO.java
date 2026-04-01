@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Data
 public class LeadRequestDTO {
     @NotNull
-    private Status status;
+    private LeadStatus status;
 
     @NotBlank
     private String name;

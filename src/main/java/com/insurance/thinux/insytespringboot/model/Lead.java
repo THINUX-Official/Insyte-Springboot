@@ -30,7 +30,7 @@ public class Lead extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private LeadStatus status;
 
     @Column(nullable = false, length = 100)
     private String name;

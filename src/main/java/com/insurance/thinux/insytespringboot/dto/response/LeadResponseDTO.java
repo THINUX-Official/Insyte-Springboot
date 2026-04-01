@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 public class LeadResponseDTO {
     private Long id;
-    private Status status;
+    private LeadStatus status;
     private String name;
     private String nic;
     private String email;
