@@ -1,7 +1,5 @@
 package com.insurance.thinux.insytespringboot.repository;
 
-import com.insurance.thinux.insytespringboot.dto.request.UserRequestDTO;
-import com.insurance.thinux.insytespringboot.dto.response.UserResponseDTO;
 import com.insurance.thinux.insytespringboot.enums.UserStatus;
 import com.insurance.thinux.insytespringboot.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
