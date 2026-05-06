@@ -12,4 +12,6 @@ public interface AgentTargetRepository extends JpaRepository<AgentTarget, Long> 
     List<AgentTarget> findByAgent(User agent);
 
     Optional<AgentTarget> findByAgentAndTargetYearAndTargetMonth(User agent, Integer targetYear, Integer targetMonth);
+
+    List<AgentTarget> findByTargetYearAndTargetMonth(Integer targetYear, Integer targetMonth);
 }

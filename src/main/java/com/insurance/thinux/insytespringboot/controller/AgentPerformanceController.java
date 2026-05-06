@@ -1,8 +1,7 @@
 package com.insurance.thinux.insytespringboot.controller;
 
-import com.insurance.thinux.insytespringboot.model.AgentPerformance;
-import com.insurance.thinux.insytespringboot.repository.AgentPerformanceRepository;
-import com.insurance.thinux.insytespringboot.service.impl.AgentPerformanceService;
+import com.insurance.thinux.insytespringboot.dto.response.AgentPerformanceResponseDTO;
+import com.insurance.thinux.insytespringboot.service.AgentPerformanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,21 +13,24 @@ import java.util.List;
 public class AgentPerformanceController {
 
     private final AgentPerformanceService agentPerformanceService;
-    private final AgentPerformanceRepository agentPerformanceRepository;
-
-    @PostMapping("/generate")
-    public String generateMonthlyPerformance(@RequestParam Integer year, @RequestParam Integer month) {
-        agentPerformanceService.generateMonthlyPerformance(year, month);
-        return "Monthly agent performance generated successfully";
-    }
 
     @GetMapping
-    public List<AgentPerformance> getAllPerformance() {
-        return agentPerformanceRepository.findAll();
+    public List<AgentPerformanceResponseDTO> getAllAgentPerformance() {
+        return agentPerformanceService.getAllAgentPerformance();
     }
 
     @GetMapping("/month")
-    public List<AgentPerformance> getMonthlyPerformance(@RequestParam Integer year, @RequestParam Integer month) {
-        return agentPerformanceRepository.findByPerformanceYearAndPerformanceMonth(year, month);
+    public List<AgentPerformanceResponseDTO> getPerformanceByMonth(@RequestParam Integer year, @RequestParam Integer month) {
+        return agentPerformanceService.getPerformanceByMonth(year, month);
+    }
+
+    @GetMapping("/agent/{agentId}")
+    public List<AgentPerformanceResponseDTO> getPerformanceByAgent(@PathVariable Long agentId) {
+        return agentPerformanceService.getPerformanceByAgent(agentId);
+    }
+
+    @PostMapping("/generate")
+    public List<AgentPerformanceResponseDTO> generateMonthlyPerformance(@RequestParam Integer year, @RequestParam Integer month) {
+        return agentPerformanceService.generateMonthlyPerformance(year, month);
     }
 }

@@ -11,6 +11,8 @@ public interface AgentPerformanceRepository extends JpaRepository<AgentPerforman
 
     List<AgentPerformance> findByAgent(User agent);
 
+    List<AgentPerformance> findByAgentId(Long agentId);
+
     Optional<AgentPerformance> findByAgentAndPerformanceYearAndPerformanceMonth(User agent, Integer performanceYear, Integer performanceMonth);
 
     List<AgentPerformance> findByPerformanceYearAndPerformanceMonth(Integer performanceYear, Integer performanceMonth);
