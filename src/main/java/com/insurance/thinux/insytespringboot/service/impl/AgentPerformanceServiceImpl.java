@@ -8,7 +8,6 @@ import com.insurance.thinux.insytespringboot.model.User;
 import com.insurance.thinux.insytespringboot.repository.AgentPerformanceRepository;
 import com.insurance.thinux.insytespringboot.repository.AgentTargetRepository;
 import com.insurance.thinux.insytespringboot.repository.LeadRepository;
-import com.insurance.thinux.insytespringboot.repository.UserRepository;
 import com.insurance.thinux.insytespringboot.service.AgentPerformanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class AgentPerformanceServiceImpl implements AgentPerformanceService {
     private final AgentPerformanceRepository agentPerformanceRepository;
     private final AgentTargetRepository agentTargetRepository;
     private final LeadRepository leadRepository;
-    private final UserRepository userRepository;
 
     @Override
     public List<AgentPerformanceResponseDTO> getAllAgentPerformance() {
