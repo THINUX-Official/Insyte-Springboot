@@ -1,0 +1,11 @@
+id,agent_id,username,nickname,supervisor_id,performance_year,performance_month,total_leads,converted_leads,cancelled_leads,on_hold_leads,total_premium,target_premium,target_achievement_percentage,conversion_rate,average_premium,performance_score
+1,1,admin,admin_test,,2026,5,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0
+2,2,sh,sh_test,,2026,5,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0
+3,3,zo,zo_test,2.0,2026,5,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0
+4,4,rm,rm_test,3.0,2026,5,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0
+5,5,bm,bm_test,4.0,2026,5,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0
+6,6,ul,ul_test,5.0,2026,5,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0
+7,7,ic,ic_test,6.0,2026,5,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0
+8,8,thinusha.d,Thinusha,6.0,2026,5,15,6,2,1,384000.0,250000.0,153.6,40.0,64000.0,100.0
+9,9,hiruni.h,Hiruni Hansika,6.0,2026,5,15,5,2,2,216000.0,250000.0,86.4,33.33,43200.0,65.17
+10,10,tharanga.d,Tharanga Dilshan,6.0,2026,5,15,2,5,2,180000.0,250000.0,72.0,13.33,90000.0,48.53
