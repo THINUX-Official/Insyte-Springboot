@@ -13,12 +13,6 @@ import java.util.Optional;
 @Repository
 public interface LeadRepository extends JpaRepository<Lead, Long> {
 
-    boolean existsByNic(String nic);
-
-    boolean existsByEmail(String email);
-
-    boolean existsByMobile(String mobile);
-
     List<Lead> findAll();
 
     Optional<Lead> findByNic(String nic);

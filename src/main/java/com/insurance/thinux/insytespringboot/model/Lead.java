@@ -39,10 +39,10 @@ public class Lead extends Auditable {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 12)
+    @Column(nullable = false, length = 12)
     private String nic;
 
-    @Column(unique = true, length = 100)
+    @Column(length = 100)
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -55,7 +55,7 @@ public class Lead extends Auditable {
 
     private LocalDate dob;
 
-    @Column(unique = true, length = 15)
+    @Column(nullable = false, length = 15)
     private String mobile;
 
     @ManyToOne(fetch = FetchType.LAZY)

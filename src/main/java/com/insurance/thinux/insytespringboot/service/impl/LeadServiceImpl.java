@@ -40,18 +40,6 @@ public class LeadServiceImpl implements LeadService {
     @Override
     public LeadResponseDTO createLead(LeadRequestDTO dto) {
 
-        if (leadRepository.existsByNic(dto.getNic())) {
-            throw new RuntimeException("NIC already exists");
-        }
-
-        if (leadRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("Email address already exists");
-        }
-
-        if (leadRepository.existsByMobile(dto.getMobile())) {
-            throw new RuntimeException("Mobile number already exists");
-        }
-
         User user = userRepository.findById(dto.getAssignedUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
