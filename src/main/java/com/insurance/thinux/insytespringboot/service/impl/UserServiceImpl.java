@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDTO> getAllUsers(UserStatus status) {
-        return userRepository.findAllByStatus(status)
+        return userRepository.findAllByStatusOrderByIdDesc(status)
                 .stream()
                 .map(userMapper::toResponseDTO)
                 .toList();

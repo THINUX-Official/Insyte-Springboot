@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findAllByStatus(UserStatus status);
+    List<User> findAllByStatusOrderByIdDesc(UserStatus status);
 
     Optional<User> findByUsernameAndStatus(String username, UserStatus status);
 
