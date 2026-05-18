@@ -1,37 +1,46 @@
 package com.insurance.thinux.insytespringboot.model;
 
-import com.insurance.thinux.insytespringboot.enums.ChatbotFaqCategory;
-import com.insurance.thinux.insytespringboot.enums.CommonStatus;
-import com.insurance.thinux.insytespringboot.util.Auditable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chatbot_faqs")
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class ChatbotFaq extends Auditable {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ChatbotFaq {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 500)
+    @Column(name = "question", columnDefinition = "TEXT", nullable = false)
     private String question;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(name = "answer", columnDefinition = "TEXT", nullable = false)
     private String answer;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50)
-    private ChatbotFaqCategory category = ChatbotFaqCategory.OTHER;
+    @Column(name = "keywords", columnDefinition = "TEXT")
+    private String keywords;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private CommonStatus status = CommonStatus.ACTIVE;
+    @Column(name = "status", length = 20)
+    private String status;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (status == null || status.isBlank()) {
+            status = "ACTIVE";
+        }
+
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
 }
