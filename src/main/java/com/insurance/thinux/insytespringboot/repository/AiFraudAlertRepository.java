@@ -10,5 +10,9 @@ public interface AiFraudAlertRepository extends JpaRepository<AiFraudAlert, Long
 
     List<AiFraudAlert> findByAgentId(Long agentId);
 
+    List<AiFraudAlert> findByAgentIdIn(List<Long> agentIds);
+
     List<AiFraudAlert> findByStatus(FraudAlertStatus status);
+
+    List<AiFraudAlert> findByStatusAndAgentIdIn(FraudAlertStatus status, List<Long> agentIds);
 }

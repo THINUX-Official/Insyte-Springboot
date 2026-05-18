@@ -13,5 +13,9 @@ public interface FraudAlertService {
 
     List<FraudAlertResponseDTO> getFraudAlertsByAgent(Long agentId);
 
+    List<FraudAlertResponseDTO> getMyTeamFraudAlerts();
+
+    List<FraudAlertResponseDTO> getMyTeamOpenFraudAlerts();
+
     FraudAlertResponseDTO updateFraudAlertStatus(Long id, FraudAlertStatusUpdateRequestDTO requestDTO);
 }

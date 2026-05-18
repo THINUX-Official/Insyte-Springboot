@@ -20,9 +20,19 @@ public class FraudAlertController {
         return fraudAlertService.getAllFraudAlerts();
     }
 
+    @GetMapping("/my-team")
+    public List<FraudAlertResponseDTO> getMyTeamFraudAlerts() {
+        return fraudAlertService.getMyTeamFraudAlerts();
+    }
+
     @GetMapping("/open")
     public List<FraudAlertResponseDTO> getOpenFraudAlerts() {
         return fraudAlertService.getOpenFraudAlerts();
+    }
+
+    @GetMapping("/my-team/open")
+    public List<FraudAlertResponseDTO> getMyTeamOpenFraudAlerts() {
+        return fraudAlertService.getMyTeamOpenFraudAlerts();
     }
 
     @GetMapping("/agent/{agentId}")
