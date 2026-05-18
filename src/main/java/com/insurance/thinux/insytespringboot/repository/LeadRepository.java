@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface LeadRepository extends JpaRepository<Lead, Long> {
 
-    List<Lead> findAll();
+    List<Lead> findAllByOrderByIdDesc();
 
     Optional<Lead> findByNic(String nic);
 

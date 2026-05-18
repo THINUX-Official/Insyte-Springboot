@@ -31,7 +31,7 @@ public class LeadServiceImpl implements LeadService {
 
     @Override
     public List<LeadResponseDTO> getAllLeads() {
-        return leadRepository.findAll()
+        return leadRepository.findAllByOrderByIdDesc()
                 .stream()
                 .map(leadMapper::toDTO)
                 .toList();
