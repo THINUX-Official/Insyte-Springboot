@@ -2,6 +2,7 @@ package com.insurance.thinux.insytespringboot.service.impl;
 
 import com.insurance.thinux.insytespringboot.dto.response.AiPipelineResponseDTO;
 import com.insurance.thinux.insytespringboot.service.AiPipelineService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -12,9 +13,11 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class AiPipelineServiceImpl implements AiPipelineService {
 
-    private static final String ML_DIRECTORY = "D:\\ESOFT\\PROJECT\\insyte\\Insyte-Springboot\\src\\main\\java\\com\\insurance\\thinux\\insytespringboot\\ml\\";
+    @Value("${app.ml.directory}")
+    private String mlDirectory;
 
-    private static final String PYTHON_COMMAND = "python";
+    @Value("${app.ml.python-command:python}")
+    private String pythonCommand;
 
     private static final String PIPELINE_SCRIPT = "run_ai_pipeline.py";
 
@@ -25,15 +28,26 @@ public class AiPipelineServiceImpl implements AiPipelineService {
         StringBuilder error = new StringBuilder();
 
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(PYTHON_COMMAND, PIPELINE_SCRIPT);
+            File workingDirectory = new File(mlDirectory);
 
-            processBuilder.directory(new File(ML_DIRECTORY));
+            if (!workingDirectory.exists() || !workingDirectory.isDirectory()) {
+                return new AiPipelineResponseDTO(false, -1, "ML directory not found", "", "Invalid ML directory: " + workingDirectory.getAbsolutePath());
+            }
+
+            File scriptFile = new File(workingDirectory, PIPELINE_SCRIPT);
+
+            if (!scriptFile.exists() || !scriptFile.isFile()) {
+                return new AiPipelineResponseDTO(false, -1, "Pipeline script not found", "", "Missing script: " + scriptFile.getAbsolutePath());
+            }
+
+            ProcessBuilder processBuilder = new ProcessBuilder(pythonCommand, PIPELINE_SCRIPT);
+
+            processBuilder.directory(workingDirectory);
             processBuilder.redirectErrorStream(false);
 
             Process process = processBuilder.start();
 
             try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8)); BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
-
                 String line;
 
                 while ((line = outputReader.readLine()) != null) {
@@ -46,7 +60,6 @@ public class AiPipelineServiceImpl implements AiPipelineService {
             }
 
             int exitCode = process.waitFor();
-
             boolean success = exitCode == 0;
 
             return new AiPipelineResponseDTO(success, exitCode, success ? "AI pipeline completed successfully" : "AI pipeline failed", output.toString(), error.toString());
