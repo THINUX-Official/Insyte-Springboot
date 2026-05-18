@@ -9,5 +9,9 @@ public interface AiPerformancePredictionRepository extends JpaRepository<AiPerfo
 
     List<AiPerformancePrediction> findByAgentId(Long agentId);
 
+    List<AiPerformancePrediction> findByAgentIdIn(List<Long> agentIds);
+
+    List<AiPerformancePrediction> findByAgentIdInAndPredictionYearAndPredictionMonth(List<Long> agentIds, Integer predictionYear, Integer predictionMonth);
+
     List<AiPerformancePrediction> findByPredictionYearAndPredictionMonth(Integer predictionYear, Integer predictionMonth);
 }

@@ -15,6 +15,8 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 
     List<Lead> findAllByOrderByIdDesc();
 
+    List<Lead> findByAssignedUserIdInOrderByIdDesc(List<Long> assignedUserIds);
+
     Optional<Lead> findByNic(String nic);
 
     @Query(value = """

@@ -11,4 +11,8 @@ public interface AiPredictionService {
     List<AiPredictionResponseDTO> getPredictionsByAgent(Long agentId);
 
     List<AiPredictionResponseDTO> getPredictionsByMonth(Integer year, Integer month);
+
+    List<AiPredictionResponseDTO> getMyTeamPredictions();
+
+    List<AiPredictionResponseDTO> getMyTeamPredictionsByMonth(Integer year, Integer month);
 }

@@ -33,4 +33,14 @@ public class AgentPerformanceController {
     public List<AgentPerformanceResponseDTO> generateMonthlyPerformance(@RequestParam Integer year, @RequestParam Integer month) {
         return agentPerformanceService.generateMonthlyPerformance(year, month);
     }
+
+    @GetMapping("/my-team")
+    public List<AgentPerformanceResponseDTO> getMyTeamPerformance() {
+        return agentPerformanceService.getMyTeamPerformance();
+    }
+
+    @GetMapping("/my-team/month")
+    public List<AgentPerformanceResponseDTO> getMyTeamPerformanceByMonth(@RequestParam Integer year, @RequestParam Integer month) {
+        return agentPerformanceService.getMyTeamPerformanceByMonth(year, month);
+    }
 }

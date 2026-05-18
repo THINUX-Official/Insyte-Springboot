@@ -9,6 +9,7 @@ import com.insurance.thinux.insytespringboot.repository.AgentPerformanceReposito
 import com.insurance.thinux.insytespringboot.repository.AgentTargetRepository;
 import com.insurance.thinux.insytespringboot.repository.LeadRepository;
 import com.insurance.thinux.insytespringboot.service.AgentPerformanceService;
+import com.insurance.thinux.insytespringboot.service.HierarchyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class AgentPerformanceServiceImpl implements AgentPerformanceService {
     private final AgentPerformanceRepository agentPerformanceRepository;
     private final AgentTargetRepository agentTargetRepository;
     private final LeadRepository leadRepository;
+    private final HierarchyService hierarchyService;
 
     @Override
     public List<AgentPerformanceResponseDTO> getAllAgentPerformance() {
@@ -95,6 +97,38 @@ public class AgentPerformanceServiceImpl implements AgentPerformanceService {
         }
 
         return getPerformanceByMonth(year, month);
+    }
+
+    @Override
+    public List<AgentPerformanceResponseDTO> getMyTeamPerformance() {
+
+        if (hierarchyService.isCurrentUserAdmin()) {
+            return agentPerformanceRepository.findAll().stream().map(AgentPerformanceMapper::toResponseDTO).toList();
+        }
+
+        List<Long> visibleIcIds = hierarchyService.getVisibleIcIdsForCurrentUser();
+
+        if (visibleIcIds.isEmpty()) {
+            return List.of();
+        }
+
+        return agentPerformanceRepository.findByAgentIdIn(visibleIcIds).stream().map(AgentPerformanceMapper::toResponseDTO).toList();
+    }
+
+    @Override
+    public List<AgentPerformanceResponseDTO> getMyTeamPerformanceByMonth(Integer year, Integer month) {
+
+        if (hierarchyService.isCurrentUserAdmin()) {
+            return agentPerformanceRepository.findByPerformanceYearAndPerformanceMonth(year, month).stream().map(AgentPerformanceMapper::toResponseDTO).toList();
+        }
+
+        List<Long> visibleIcIds = hierarchyService.getVisibleIcIdsForCurrentUser();
+
+        if (visibleIcIds.isEmpty()) {
+            return List.of();
+        }
+
+        return agentPerformanceRepository.findByAgentIdInAndPerformanceYearAndPerformanceMonth(visibleIcIds, year, month).stream().map(AgentPerformanceMapper::toResponseDTO).toList();
     }
 
     private BigDecimal calculatePercentage(BigDecimal value, BigDecimal total) {

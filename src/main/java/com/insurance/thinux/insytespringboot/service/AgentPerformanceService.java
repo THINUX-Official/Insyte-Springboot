@@ -12,4 +12,9 @@ public interface AgentPerformanceService {
 
     List<AgentPerformanceResponseDTO> getPerformanceByAgent(Long agentId);
 
-    List<AgentPerformanceResponseDTO> generateMonthlyPerformance(Integer year, Integer month);}
+    List<AgentPerformanceResponseDTO> generateMonthlyPerformance(Integer year, Integer month);
+
+    List<AgentPerformanceResponseDTO> getMyTeamPerformance();
+
+    List<AgentPerformanceResponseDTO> getMyTeamPerformanceByMonth(Integer year, Integer month);
+}

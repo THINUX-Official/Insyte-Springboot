@@ -33,4 +33,9 @@ public class RecommendationController {
     public RecommendationResponseDTO markRecommendationAsViewed(@PathVariable Long id) {
         return recommendationService.markRecommendationAsViewed(id);
     }
+
+    @GetMapping("/my-team")
+    public List<RecommendationResponseDTO> getMyTeamRecommendations() {
+        return recommendationService.getMyTeamRecommendations();
+    }
 }

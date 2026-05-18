@@ -28,4 +28,14 @@ public class AiPredictionController {
     public List<AiPredictionResponseDTO> getPredictionsByMonth(@RequestParam Integer year, @RequestParam Integer month) {
         return aiPredictionService.getPredictionsByMonth(year, month);
     }
+
+    @GetMapping("/my-team")
+    public List<AiPredictionResponseDTO> getMyTeamPredictions() {
+        return aiPredictionService.getMyTeamPredictions();
+    }
+
+    @GetMapping("/my-team/month")
+    public List<AiPredictionResponseDTO> getMyTeamPredictionsByMonth(@RequestParam Integer year, @RequestParam Integer month) {
+        return aiPredictionService.getMyTeamPredictionsByMonth(year, month);
+    }
 }

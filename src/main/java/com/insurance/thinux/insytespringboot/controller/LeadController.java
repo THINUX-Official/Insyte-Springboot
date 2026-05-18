@@ -26,6 +26,11 @@ public class LeadController {
         return ResponseEntity.ok(new StandardResponse<>(200, "All leads", leadService.getAllLeads()));
     }
 
+    @GetMapping("/my-team")
+    public ResponseEntity<StandardResponse<List<LeadResponseDTO>>> getMyTeamLeads() {
+        return ResponseEntity.ok(new StandardResponse<>(200, "Team leads fetched successfully", leadService.getMyTeamLeads()));
+    }
+
     @PostMapping
     public ResponseEntity<StandardResponse<LeadResponseDTO>> createLead(@Valid @RequestBody LeadRequestDTO dto) {
         return ResponseEntity.ok(new StandardResponse<>(200, "Lead created", leadService.createLead(dto)));

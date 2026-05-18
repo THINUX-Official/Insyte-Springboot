@@ -12,5 +12,7 @@ public interface RecommendationService {
 
     List<RecommendationResponseDTO> getRecommendationsBySupervisor(Long supervisorId);
 
+    List<RecommendationResponseDTO> getMyTeamRecommendations();
+
     RecommendationResponseDTO markRecommendationAsViewed(Long id);
 }

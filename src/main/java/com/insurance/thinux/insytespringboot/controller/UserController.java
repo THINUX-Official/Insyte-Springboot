@@ -32,6 +32,11 @@ public class UserController {
         return ResponseEntity.ok(new StandardResponse<>(200, "Users fetched successfully", userService.getAllUsers(status)));
     }
 
+    @GetMapping("/my-team")
+    public ResponseEntity<StandardResponse<List<UserResponseDTO>>> getMyTeamUsers() {
+        return ResponseEntity.ok(new StandardResponse<>(200, "Team users fetched successfully", userService.getMyTeamUsers()));
+    }
+
     @PostMapping
     public ResponseEntity<StandardResponse<UserResponseDTO>> createUser(@Valid @RequestBody UserRequestDTO dto) {
         return ResponseEntity.ok(new StandardResponse<>(201, "User created successfully", userService.createUser(dto)));

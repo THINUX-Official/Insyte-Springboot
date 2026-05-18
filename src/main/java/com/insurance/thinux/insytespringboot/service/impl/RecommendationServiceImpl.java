@@ -5,6 +5,7 @@ import com.insurance.thinux.insytespringboot.enums.RecommendationStatus;
 import com.insurance.thinux.insytespringboot.mapper.RecommendationMapper;
 import com.insurance.thinux.insytespringboot.model.AiRecommendation;
 import com.insurance.thinux.insytespringboot.repository.AiRecommendationRepository;
+import com.insurance.thinux.insytespringboot.service.HierarchyService;
 import com.insurance.thinux.insytespringboot.service.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final AiRecommendationRepository aiRecommendationRepository;
+    private final HierarchyService hierarchyService;
 
     @Override
     public List<RecommendationResponseDTO> getAllRecommendations() {
@@ -31,6 +33,22 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     public List<RecommendationResponseDTO> getRecommendationsBySupervisor(Long supervisorId) {
         return aiRecommendationRepository.findBySupervisorId(supervisorId).stream().map(RecommendationMapper::toResponseDTO).toList();
+    }
+
+    @Override
+    public List<RecommendationResponseDTO> getMyTeamRecommendations() {
+
+        if (hierarchyService.isCurrentUserAdmin()) {
+            return aiRecommendationRepository.findAll().stream().map(RecommendationMapper::toResponseDTO).toList();
+        }
+
+        List<Long> visibleIcIds = hierarchyService.getVisibleIcIdsForCurrentUser();
+
+        if (visibleIcIds.isEmpty()) {
+            return List.of();
+        }
+
+        return aiRecommendationRepository.findByAgentIdIn(visibleIcIds).stream().map(RecommendationMapper::toResponseDTO).toList();
     }
 
     @Override

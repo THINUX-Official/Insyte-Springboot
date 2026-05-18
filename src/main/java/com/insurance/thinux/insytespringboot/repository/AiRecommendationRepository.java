@@ -10,7 +10,11 @@ public interface AiRecommendationRepository extends JpaRepository<AiRecommendati
 
     List<AiRecommendation> findByAgentId(Long agentId);
 
+    List<AiRecommendation> findByAgentIdIn(List<Long> agentIds);
+
     List<AiRecommendation> findBySupervisorId(Long supervisorId);
+
+    List<AiRecommendation> findBySupervisorIdIn(List<Long> supervisorIds);
 
     List<AiRecommendation> findByAgentIdAndStatus(Long agentId, RecommendationStatus status);
 }
