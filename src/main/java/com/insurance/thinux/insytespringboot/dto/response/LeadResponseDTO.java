@@ -22,6 +22,8 @@ public class LeadResponseDTO {
     private CivilStatus civilStatus;
     private LocalDate dob;
     private String mobile;
+    private Long occupationId;
+    private String occupationCode;
     private String occupationName;
     private Race race;
 

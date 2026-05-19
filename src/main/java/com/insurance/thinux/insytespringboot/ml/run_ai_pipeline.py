@@ -3,6 +3,8 @@ import subprocess
 import sys
 from datetime import datetime
 
+from pipeline_cleanup import cleanup_pipeline_outputs
+
 
 def run_script(script_name, script_path):
     """
@@ -45,6 +47,7 @@ def run_script(script_name, script_path):
 def run_ai_pipeline():
     """
     Run full AI pipeline:
+    0. Cleanup previous auto-generated pipeline outputs
     1. Train performance model
     2. Predict next month performance
     3. Detect fraud/anomaly patterns
@@ -94,6 +97,22 @@ def run_ai_pipeline():
     print("#" * 70)
 
     pipeline_start = datetime.now()
+
+    print("\n" + "=" * 70)
+    print("STARTING: Cleanup Previous Pipeline Outputs")
+    print("=" * 70)
+
+    cleanup_start = datetime.now()
+
+    cleanup_pipeline_outputs()
+
+    cleanup_end = datetime.now()
+    cleanup_duration = cleanup_end - cleanup_start
+
+    print("\n" + "=" * 70)
+    print("COMPLETED: Cleanup Previous Pipeline Outputs")
+    print(f"Duration: {cleanup_duration}")
+    print("=" * 70)
 
     for script in scripts:
         run_script(
