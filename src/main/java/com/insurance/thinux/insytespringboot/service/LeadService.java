@@ -12,6 +12,8 @@ public interface LeadService {
 
     List<LeadResponseDTO> getAllLeads();
 
+    List<LeadResponseDTO> getMyTeamLeads();
+
     LeadResponseDTO updateLead(Long id, LeadRequestDTO dto);
 
     void deleteLead(Long id);

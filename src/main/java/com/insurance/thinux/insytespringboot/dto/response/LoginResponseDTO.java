@@ -10,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class LoginResponseDTO {
+
     private Long id;
     private String username;
     private String email;
@@ -17,5 +18,9 @@ public class LoginResponseDTO {
     private String nickname;
     private String status;
     private Set<String> roles;
+
+    private String token;
+    private String tokenType;
+
     private String message;
 }

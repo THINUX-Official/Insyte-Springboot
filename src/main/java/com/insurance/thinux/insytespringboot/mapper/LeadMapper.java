@@ -61,6 +61,8 @@ public class LeadMapper {
         dto.setMobile(lead.getMobile());
 
         if (lead.getOccupation() != null) {
+            dto.setOccupationId(lead.getOccupation().getId());
+            dto.setOccupationCode(lead.getOccupation().getCode());
             dto.setOccupationName(lead.getOccupation().getName());
         }
 

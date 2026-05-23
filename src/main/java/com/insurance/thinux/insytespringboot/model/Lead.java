@@ -1,5 +1,6 @@
 package com.insurance.thinux.insytespringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insurance.thinux.insytespringboot.enums.*;
 import com.insurance.thinux.insytespringboot.util.Auditable;
 import jakarta.persistence.*;
@@ -10,6 +11,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author: THINUX
@@ -35,10 +39,10 @@ public class Lead extends Auditable {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 12)
+    @Column(nullable = false, length = 12)
     private String nic;
 
-    @Column(unique = true, length = 100)
+    @Column(length = 100)
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -51,7 +55,7 @@ public class Lead extends Auditable {
 
     private LocalDate dob;
 
-    @Column(unique = true, length = 15)
+    @Column(nullable = false, length = 15)
     private String mobile;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -110,4 +114,33 @@ public class Lead extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_user_id", nullable = false)
     private User assignedUser;
+
+    @Column(name = "converted_at")
+    private LocalDateTime convertedAt;
+
+    @Column(name = "cancelled_at")
+    private LocalDateTime cancelledAt;
+
+    @Column(name = "last_followup_at")
+    private LocalDateTime lastFollowupAt;
+
+    @Column(name = "followup_count")
+    private Integer followupCount = 0;
+
+    @Column(precision = 10, scale = 7)
+    private BigDecimal latitude;
+
+    @Column(precision = 10, scale = 7)
+    private BigDecimal longitude;
+
+    @Column(name = "duplicate_check_key")
+    private String duplicateCheckKey;
+
+    @OneToMany(mappedBy = "lead", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<LeadStatusHistory> statusHistories = new HashSet<>();
+
+    @OneToMany(mappedBy = "lead", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<AiFraudAlert> fraudAlerts = new HashSet<>();
 }

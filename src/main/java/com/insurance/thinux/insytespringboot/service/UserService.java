@@ -14,6 +14,8 @@ public interface UserService {
 
     List<UserResponseDTO> getAllUsers(UserStatus status);
 
+    List<UserResponseDTO> getMyTeamUsers();
+
     UserResponseDTO createUser(UserRequestDTO dto);
 
     UserResponseDTO getUserByUsername(String username);

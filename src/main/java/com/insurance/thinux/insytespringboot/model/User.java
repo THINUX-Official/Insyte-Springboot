@@ -73,4 +73,24 @@ public class User extends Auditable {
 
     @OneToMany(mappedBy = "assignedUser", fetch = FetchType.LAZY)
     private Set<Lead> leads = new HashSet<>();
+
+    @OneToMany(mappedBy = "agent", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<AgentPerformance> agentPerformances = new HashSet<>();
+
+    @OneToMany(mappedBy = "agent", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<AgentTarget> agentTargets = new HashSet<>();
+
+    @OneToMany(mappedBy = "agent", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<AiPerformancePrediction> performancePredictions = new HashSet<>();
+
+    @OneToMany(mappedBy = "agent", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<AiFraudAlert> fraudAlerts = new HashSet<>();
+
+    @OneToMany(mappedBy = "agent", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<AiRecommendation> recommendations = new HashSet<>();
 }
